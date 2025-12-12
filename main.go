@@ -53,7 +53,11 @@ func main() {
 			}
 			w.Write(s.toSlice())*/
 
-			b := Building{ Name: el.ChildText("td:nth-child(1)")}
+			b := Building{ 
+				Name: el.ChildText("td:nth-child(1)"),
+				Type: el.ChildText("td:nth-child(2)"),
+				YearOfConstruction: el.ChildText("td:nth-child(3)"),
+			}
 
 			fmt.Printf("%+v\n", b)
 		})
