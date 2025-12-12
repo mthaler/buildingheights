@@ -1,6 +1,6 @@
 package main
 
-type Summit struct {
+type Building struct {
 	Name        		string
 	Type				string
 	YearOfConstruction 	string
