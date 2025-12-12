@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 
 	"github.com/gocolly/colly/v2"
 )
@@ -53,10 +54,16 @@ func main() {
 			}
 			w.Write(s.toSlice())*/
 
+			height := el.ChildText("td:nth-child(4)")
+			if (height != "") {
+				height = height[:len(height)-2]
+				height = strings.Replace(height, ",", ".", -1)
+			}
 			b := Building{ 
 				Name: el.ChildText("td:nth-child(1)"),
 				Type: el.ChildText("td:nth-child(2)"),
 				YearOfConstruction: el.ChildText("td:nth-child(3)"),
+				Height: height,
 			}
 
 			fmt.Printf("%+v\n", b)
