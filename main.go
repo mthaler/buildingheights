@@ -43,25 +43,11 @@ func main() {
 				height = height[:utf8.RuneCountInString(height)-2]
 				height = strings.Replace(height, ",", ".", -1)
 			}
-			coordinates := el.ChildText("td:nth-child(5)")
-			latitude := ""
-			longitude := ""
-			if coordinates != "" {
-				coordinatesArray := strings.Split(coordinates, ",")
-				if len(coordinatesArray) >= 2 {
-					latitude = coordinatesArray[0]
-					latitude = string([]rune(latitude)[:utf8.RuneCountInString(latitude)-2])
-					longitude = coordinatesArray[1]
-					longitude = string([]rune(longitude)[:utf8.RuneCountInString(longitude)-2])
-				}
-			}
 			b := Building{
 				Name:               el.ChildText("td:nth-child(1)"),
 				Type:               el.ChildText("td:nth-child(2)"),
 				YearOfConstruction: el.ChildText("td:nth-child(3)"),
 				Height:             height,
-				Latitude:           latitude,
-				Longitude:          longitude,
 				Remark:             el.ChildText("td:nth-child(6)"),
 			}
 
