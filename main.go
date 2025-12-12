@@ -48,11 +48,11 @@ func main() {
 			longitude := ""
 			if coordinates != "" {
 				coordinatesArray := strings.Split(coordinates, ",")
-				if len(coordinatesArray) == 2 {
+				if len(coordinatesArray) >= 2 {
 					latitude = coordinatesArray[0]
-					latitude = latitude[:utf8.RuneCountInString(latitude)-3]
+					latitude = string([]rune(latitude)[:utf8.RuneCountInString(latitude)-2])
 					longitude = coordinatesArray[1]
-					longitude = longitude[:utf8.RuneCountInString(longitude)-3]
+					longitude = string([]rune(longitude)[:utf8.RuneCountInString(longitude)-2])
 				}
 			}
 			b := Building{
