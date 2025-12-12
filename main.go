@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"strings"
+	"unicode/utf8"
 
 	"github.com/gocolly/colly/v2"
 )
@@ -56,14 +57,28 @@ func main() {
 
 			height := el.ChildText("td:nth-child(4)")
 			if (height != "") {
-				height = height[:len(height)-2]
+				height = height[:utf8.RuneCountInString(height)-2]
 				height = strings.Replace(height, ",", ".", -1)
+			}
+			coordinates := el.ChildText("td:nth-child(5)")
+			latitude := ""
+			longitude := ""
+			if (coordinates != "") {
+				coordinatesArray := strings.Split(coordinates, ",")
+				if (len(coordinatesArray) == 2) {
+					latitude = coordinatesArray[0]
+					latitude = latitude[:len(latitude)-3]
+					longitude = coordinatesArray[1]
+					longitude = longitude[:len(longitude)-3]
+				}
 			}
 			b := Building{ 
 				Name: el.ChildText("td:nth-child(1)"),
 				Type: el.ChildText("td:nth-child(2)"),
 				YearOfConstruction: el.ChildText("td:nth-child(3)"),
 				Height: height,
+				Latitude: latitude,
+				Longitude: longitude,
 			}
 
 			fmt.Printf("%+v\n", b)
