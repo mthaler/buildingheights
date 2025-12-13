@@ -50,8 +50,7 @@ func main() {
 				}
 				height = math.Round(height)
 				heightInt := int(height)
-				heightText := fmt.Sprintf("%d", heightInt)
-				fmt.Printf("%s\n", heightText)
+				heightText = fmt.Sprintf("%d", heightInt)
 			}
 			b := Building{
 				Name:               el.ChildText("td:nth-child(1)"),
