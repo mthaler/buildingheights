@@ -4,7 +4,9 @@ import (
 	"encoding/csv"
 	"fmt"
 	"log"
+	"math"
 	"os"
+	"strconv"
 	"strings"
 	"unicode/utf8"
 
@@ -38,16 +40,24 @@ func main() {
 
 	c.OnHTML("table", func(e *colly.HTMLElement) {
 		e.ForEach("tr", func(_ int, el *colly.HTMLElement) {
-			height := el.ChildText("td:nth-child(4)")
-			if height != "" {
-				height = height[:utf8.RuneCountInString(height)-2]
-				height = strings.Replace(height, ",", ".", -1)
+			heightText := el.ChildText("td:nth-child(4)")
+			if heightText != "" {
+				heightText = heightText[:utf8.RuneCountInString(heightText)-2]
+				heightText = strings.Replace(heightText, ",", ".", -1)
+				height, err := strconv.ParseFloat(heightText, 64)
+				if err != nil {
+					fmt.Printf("Error:%v\n", err)
+				}
+				height = math.Round(height)
+				heightInt := int(height)
+				heightText := fmt.Sprintf("%d", heightInt)
+				fmt.Printf("%s\n", heightText)
 			}
 			b := Building{
 				Name:               el.ChildText("td:nth-child(1)"),
 				Type:               el.ChildText("td:nth-child(2)"),
 				YearOfConstruction: el.ChildText("td:nth-child(3)"),
-				Height:             height,
+				Height:             heightText,
 				Remark:             el.ChildText("td:nth-child(6)"),
 			}
 
